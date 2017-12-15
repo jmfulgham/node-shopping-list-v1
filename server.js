@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 // we import the ShoppingList model, which we'll
 // interact with in our GET endpoint
 const {ShoppingList} = require('./models');
+//Question, why is this called almost like a class with the . ?
 
 const jsonParser = bodyParser.json();
 const app = express();
@@ -24,6 +25,22 @@ app.use(morgan('common'));
 ShoppingList.create('beans', 2);
 ShoppingList.create('tomatoes', 3);
 ShoppingList.create('peppers', 4);
+ShoppingList.create('wine', 10);
+
+//add a couple recipes to the model
+//first we must require the recipe model
+const {Recipes} = require('./models');
+//then we create a few recipes
+Recipes.create('chocolate milk', ['cocoa','milk','sugar' ]);
+Recipes.create('Sweet Tea Lemonade', ['water', 'sugar', 
+'black tea', 'lemons']);
+
+//then we create the request and response for the recipes
+app.get('/recipes', (req,res)=>{
+  res.json(Recipes.get());
+});
+
+
 
 // when the root of this route is called with GET, return
 // all current ShoppingList items by calling `ShoppingList.get()`
